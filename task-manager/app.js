@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import connectDB from "./database/index.js";
 
 import tasks from "./routes/tasks.js";
+import notFound from "./middleware/not-found.js";
+import errorHandler from "./middleware/error-handler.js";
 
 const app = express();
 dotenv.config();
@@ -13,6 +15,8 @@ const MONGO_URI = process.env.MONGO_URI;
 app.use(express.static("./public"));
 app.use(express.json());
 app.use("/api/v1/tasks", tasks);
+app.use(notFound);
+app.use(errorHandler);
 
 const start = async () => {
   await connectDB(MONGO_URI, () => {
