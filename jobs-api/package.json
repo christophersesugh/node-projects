@@ -1,14 +1,14 @@
 {
   "name": "jobs-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Jobs API",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "nodemon src/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Christopher Sesugh",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
