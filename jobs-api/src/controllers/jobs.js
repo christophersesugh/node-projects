@@ -1,21 +1,61 @@
+import { StatusCodes } from "http-status-codes";
 import asyncWrapper from "../middleware/async-wrapper.js";
+import Job from "../models/job.js";
+import CustomErrorApi from "../errors/custom-api.js";
 
 export const getAllJobs = asyncWrapper(async (req, res) => {
-  res.send("JOBS");
+  const jobs = await Job.find({}).sort("createdAt");
+  res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
 });
 
 export const getJob = asyncWrapper(async (req, res) => {
-  res.send("get JOBS");
+  const { id } = req.params;
+  const job = await Job.findOne({ _id: id });
+  if (!job) {
+    throw new CustomErrorApi(`No job with the id ${id}`, StatusCodes.NOT_FOUND);
+  }
+  res.status(StatusCodes.OK).json({ job });
 });
 
 export const createJob = asyncWrapper(async (req, res) => {
-  res.send("create JOBS");
+  req.body.createdBy = req.user.id;
+  const job = await Job.create(req.body);
+  res.status(StatusCodes.CREATED).json({ job });
 });
 
 export const updateJob = asyncWrapper(async (req, res) => {
-  res.send("update JOBS");
+  const {
+    body: { company, position },
+    user,
+    params: { id },
+  } = req;
+  if (!company || !position) {
+    throw new CustomErrorApi(
+      `Company and position must be provided`,
+      StatusCodes.BAD_REQUEST
+    );
+  }
+
+  const job = await Job.findOneAndUpdate(
+    { _id: id, createdBy: user.id },
+    req.body,
+    { new: true, runValidators: true }
+  );
+  if (!job) {
+    throw new CustomErrorApi(`No job with the id ${id}`, StatusCodes.NOT_FOUND);
+  }
+  res.status(StatusCodes.OK).json({ job });
 });
 
 export const deleteJob = asyncWrapper(async (req, res) => {
-  res.send("delete JOBS");
+  const {
+    user,
+    params: { id },
+  } = req;
+
+  const job = await Job.findOneAndRemove({ _id: id, createdBy: user.id });
+  if (!job) {
+    throw new CustomErrorApi(`No job with the id ${id}`, StatusCodes.NOT_FOUND);
+  }
+  res.status(StatusCodes.OK).send("Deleted successfully");
 });
