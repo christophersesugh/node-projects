@@ -41,13 +41,6 @@ app.use("/api/v1/jobs", jobs);
 app.use(notFound);
 app.use(errorHandler);
 
-const start = async () => {
-  // await connectDB(MONGO_URI, () => {
-  //   console.log(`Connected to DB`);
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-  // });
-};
-
-start();
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
