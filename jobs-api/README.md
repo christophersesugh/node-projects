@@ -14,7 +14,7 @@
 
 ### ME route (requires authentication)
 
-After restration or login, the api will return a token of which you will use to make a GET request to the below URL to get a specific user's jobs, so that the user can be able to edit and delete only their jobs. A user can also add more jobs that will be related to his id.
+After restration or login, the api will return a token of which you will use to make a GET request to the below URL to get a specific user's profile including all his jobs, so that the user can be able to edit and delete only their jobs. A user can also add more jobs that will be related to his id.
 | URL | payload | method |
 | ----------------------------------------------- | --------------- | ------ |
 | https://jobsportal.cyclic.app/api/v1/auth/me | null | GET |
