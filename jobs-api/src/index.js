@@ -15,7 +15,6 @@ const app = express();
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI;
 
 app.set("trust proxy", 1);
 app.use(
@@ -43,12 +42,12 @@ app.use(notFound);
 app.use(errorHandler);
 
 const start = async () => {
-  await connectDB(MONGO_URI, () => {
-    console.log(`Connected to DB`);
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+  // await connectDB(MONGO_URI, () => {
+  //   console.log(`Connected to DB`);
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
   });
+  // });
 };
 
 start();
