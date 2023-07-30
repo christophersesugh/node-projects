@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { prisma } from "../libs/prisma.js";
+import { PrismaClient } from "@prisma/client";
 import asyncWrapper from "../middleware/async-wrapper.js";
 import CustomApiError from "../errors/custom-api.js";
 
@@ -18,7 +18,7 @@ import CustomApiError from "../errors/custom-api.js";
 //     token,
 //   });
 // });
-
+const prisma = new PrismaClient();
 const secret = process.env.JWT_SECRET; // Replace with your actual secret key
 
 export const register = asyncWrapper(async (req, res) => {

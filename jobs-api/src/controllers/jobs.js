@@ -1,12 +1,15 @@
 import { StatusCodes } from "http-status-codes";
-import { prisma } from "../libs/prisma.js";
+// import { prisma } from "../libs/prisma.js";
 import asyncWrapper from "../middleware/async-wrapper.js";
 import CustomErrorApi from "../errors/custom-api.js";
+import { PrismaClient } from "@prisma/client";
 
 // export const getAllJobs = asyncWrapper(async (req, res) => {
 //   const jobs = await Job.find({}).sort("createdAt");
 //   res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
 // });
+const prisma = new PrismaClient();
+
 export const getAllJobs = asyncWrapper(async (req, res) => {
   const jobs = await prisma.job.findMany({ orderBy: { createdAt: "asc" } });
   res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
