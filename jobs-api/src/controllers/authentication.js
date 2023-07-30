@@ -82,7 +82,6 @@ export const login = asyncWrapper(async (req, res) => {
     );
   }
 
-  // Find the user by email
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
     throw new CustomApiError("Invalid credentials", StatusCodes.BAD_REQUEST);
