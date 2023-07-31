@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const secret = process.env.JWT_SECRET || "secret";
-const lifetime = process.env.JWT_LIFETIME || "1d";
+const secret = process.env.JWT_SECRET || "jobsapi";
+const lifetime = "1d";
 
 const userSchema = new mongoose.Schema({
   name: {

@@ -10,12 +10,15 @@ import notFound from "./middleware/not-found.js";
 import errorHandler from "./middleware/error-handler.js";
 import jobs from "./routes/jobs.js";
 import authentication from "./routes/authentication.js";
+import mongoose from "mongoose";
 
 const app = express();
 dotenv.config();
 
+const MONGO_URI = process.env.MONGO_URI;
 const PORT = process.env.PORT || 5000;
 
+mongoose.set("strictQuery", false);
 app.set("trust proxy", 1);
 app.use(
   rateLimit({
@@ -41,6 +44,13 @@ app.use("/api/v1/jobs", jobs);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const start = async () => {
+  await connectDB(MONGO_URI, () => {
+    console.log(`Connected to DB`);
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  });
+};
+
+start();
