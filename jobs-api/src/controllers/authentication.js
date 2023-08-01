@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import asyncWrapper from "../middleware/async-wrapper.js";
 import CustomApiError from "../errors/custom-api.js";
 import User from "../models/user.js";
+import Job from "../models/job.js";
 
 export const register = asyncWrapper(async (req, res) => {
   const { name, email, password } = req.body;
@@ -42,6 +43,7 @@ export const login = asyncWrapper(async (req, res) => {
 export const me = asyncWrapper(async (req, res) => {
   const { name, id } = req.user;
   const jobs = await Job.find({ createdBy: id });
+
   res.status(StatusCodes.OK).json({
     user: {
       name,
